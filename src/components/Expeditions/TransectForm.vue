@@ -64,7 +64,7 @@
     </form>
 
     <ActionButtons>
-      <button class="ActionButton ActionButton--success" @click="finish" type="submit">Registrar</button>
+      <button class="ActionButton ActionButton--success" @click="submit" type="submit">Registrar</button>
       <button class="ActionButton ActionButton--warning" @click="finish">Terminar</button>
     </ActionButtons>
   </div>
