@@ -1,0 +1,34 @@
+:root {
+  --ss--primary-color: #17D056;
+  --ss--primary-color-dark: #097B30;
+  --ss--secondary-color: #F6F6F6;
+  --ss--secondary-color-dark: #34684A;
+  --ss--third-color: #fddb3a;
+  --ss--third-color-dark: #326ab4;
+  --ss--contrast-color: #e41aa5;
+  --ss--dark-color: #0b132b;
+  --ss--white-color: #ffffff;
+  --ss--black-color: #030303;
+  --ss--shadow-color: #B9B9B9;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0
+}
+
+
+ul {
+  padding: 0;
+}
+
+li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
