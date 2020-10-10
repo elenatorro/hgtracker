@@ -2,7 +2,7 @@
   <div class="ExpeditionList">
     <Loader v-if="!loaded"/>
     <SectionButtonsList>
-      <li v-for="expedition in expeditions" :key="`${expedition.id_expedicion}-${expedition.fecha}`">
+      <li v-for="(expedition, index) in expeditions" :key="`${index}`">
         <SectionButton :section="`expedicion/${expedition.id_expedicion}`" :name="`Ex ${expedition.id_expedicion} - ${expedition.fecha}`"/>
       </li>
     </SectionButtonsList>

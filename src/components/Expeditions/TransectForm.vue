@@ -1,6 +1,9 @@
 <template>
   <div class="TransectForm">
     <Loader v-if="!loaded"/>
+    <div class="Notification" v-if="showNotification">
+      Añadido ✓
+    </div>
     <form class="TransectForm--form" id="create-transect">
 
       <p>
@@ -98,6 +101,8 @@ export default class TransectForm extends Vue {
   protected sexo: string = 'M'
   protected buzo: string = '-'
   protected transectId: string = ''
+  protected intervalId: number = 0
+  protected showNotification: boolean = false
 
   getDate () {
     const date = new Date()
@@ -133,7 +138,15 @@ export default class TransectForm extends Vue {
       this.fecha
     )
 
-    const res = response.json()
+    const res = await response.json()
+
+    if (!res.error) {
+      this.showNotification = true
+
+      setTimeout(() => {
+        this.showNotification = false
+      }, 5000)
+    }
   }
 
   finish (e:any) {
@@ -147,12 +160,21 @@ export default class TransectForm extends Vue {
       this.lat = `${position.coords.latitude}`
       this.lon = `${position.coords.longitude}`
       this.fecha = this.getDate()
+
+      this.intervalId = setInterval(() => {
+        this.fecha = this.getDate()
+      }, 10000)
+
       this.loaded = true
     })
 
     const trackCount = await getTrackCount(this.$route.params.id)
     const response = await trackCount.json()
     this.transectId = `${response.rows[0].count + 1}`
+  }
+
+  beforeDestroy () {
+    clearInterval(this.intervalId)
   }
 }
 </script>
@@ -173,5 +195,16 @@ export default class TransectForm extends Vue {
   input {
     padding: .5rem;
   }
+}
+
+.Notification {
+  width: 75vw;
+  position: fixed;
+  text-align: right;
+  top: 0;
+  right: 0;
+  z-index: 20;
+  padding: 2rem;
+  background-color:#97f5f5;
 }
 </style>

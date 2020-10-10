@@ -1,7 +1,7 @@
 <template>
   <div class="ExpeditionList">
     <SectionButtonsList>
-      <li v-for="track in tracks" :key="`${track.id_transecto}-${track.fecha}`">
+      <li v-for="(track, index) in tracks" :key="`${index}`">
         <SectionButton :section="`expedicion/${$route.params.id}/transecto/${track.id_transecto}`" :name="`Transecto ${track.id_transecto} - ${track.fecha}`"/>
       </li>
     </SectionButtonsList>
