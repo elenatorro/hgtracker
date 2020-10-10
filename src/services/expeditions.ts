@@ -19,18 +19,18 @@ export async function getTrackCount (id: string) {
 }
 
 export async function getTransect (id: string, tid:string) {
-  const API_URL = `${process.env.VUE_APP_API_URL}sql?api_key=${process.env.VUE_APP_KEY_EXPEDICION}&q=SELECT distancia, fondo, profundidad, especie, talla, sexo, buzo, to_char("fecha", 'HH24:MI:SS') as hora, lon, lat FROM avistamientos WHERE id_expedicion = ${id} AND id_transecto = ${tid} ORDER BY hora DESC`
+  const API_URL = `${process.env.VUE_APP_API_URL}sql?api_key=${process.env.VUE_APP_KEY_EXPEDICION}&q=SELECT distancia, fondo, profundidad, especie, talla, sexo, buzo, to_char("fecha", 'YYYY/MM/DD HH24:MI:SS') as hora, lon, lat FROM avistamientos WHERE id_expedicion = ${id} AND id_transecto = ${tid} ORDER BY hora DESC`
   return fetch(API_URL)
 }
 
 export async function postExpedition (lat: string, lon: string, date: string, place: string, team: string) {
   const response = await (await getExpeditionCount()).json()
   const id = response.rows[0].count + 1
-  const API_URL = `${process.env.VUE_APP_API_URL}sql?api_key=${process.env.VUE_APP_KEY_EXPEDICION}&q=INSERT INTO expedicion (id_expedicion, lat, lon, fecha, localidad, equipo) VALUES (${id}, ${lat}, ${lon}, '${date}', '${place}', '${team}')`
+  const API_URL = `${process.env.VUE_APP_API_URL}sql?api_key=${process.env.VUE_APP_KEY_EXPEDICION}&q=INSERT INTO expedicion (the_geom, id_expedicion, lat, lon, fecha, localidad, equipo) VALUES (ST_SetSRID(ST_Point(${lon}, ${lat}), 4326), ${id}, ${lat}, ${lon}, '${date}', '${place}', '${team}')`
   return fetch(API_URL, { method: 'POST' })
 }
 
 export async function postView (id: string, tid: string, fondo: string, profundidad: number, especie: string, talla: number, sexo: string, buzo: string, lat: string, lon: string, fecha: string) {
-  const API_URL = `${process.env.VUE_APP_API_URL}sql?api_key=${process.env.VUE_APP_KEY_EXPEDICION}&q=INSERT INTO avistamientos (id_expedicion, id_transecto, fondo, profundidad, especie, talla, sexo, buzo, lat, lon, fecha) VALUES (${id}, ${tid}, '${fondo}', ${profundidad}, '${especie}', '${talla}', '${sexo}', '${buzo}', ${lat}, ${lon}, '${fecha}')`
+  const API_URL = `${process.env.VUE_APP_API_URL}sql?api_key=${process.env.VUE_APP_KEY_EXPEDICION}&q=INSERT INTO avistamientos (the_geom, id_expedicion, id_transecto, fondo, profundidad, especie, talla, sexo, buzo, lat, lon, fecha) VALUES (ST_SetSRID(ST_Point(${lon}, ${lat}), 4326), ${id}, ${tid}, '${fondo}', ${profundidad}, '${especie}', '${talla}', '${sexo}', '${buzo}', ${lat}, ${lon}, '${fecha}')`
   return fetch(API_URL, { method: 'POST' })
 }

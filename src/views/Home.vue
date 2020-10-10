@@ -2,8 +2,8 @@
   <div class="Home">
     <SectionButtonsList>
       <li><SectionButton section='expediciones' name="Expediciones" /></li>
-      <li><SectionButton section='buzos' name="Buzos" /></li>
-      <li><SectionButton section='mapa' name="Mapa" /></li>
+      <!-- <li><SectionButton section='buzos' name="Buzos" /></li> -->
+      <!-- <li><SectionButton section='mapa' name="Mapa" /></li> -->
     </SectionButtonsList>
   </div>
 </template>
