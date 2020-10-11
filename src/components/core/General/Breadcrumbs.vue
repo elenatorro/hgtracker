@@ -17,11 +17,18 @@ export default class Breadcrumbs extends Vue {}
   padding: 0 2rem;
 
   li {
-    padding-right: 1rem;
+    display: flex;
+    width: 100%;
   }
 
   li > a {
+    width: 100%;
     color: inherit;
+    padding: 1rem 2rem;
+    font-size: 1.5rem;
+    border-radius: 5px;
+    text-decoration: none;
+    background-color: var(--ss--third-color);
   }
 }
 </style>

@@ -155,21 +155,22 @@ export default class TransectForm extends Vue {
     this.$router.push(`/expedicion/${this.$route.params.id}`)
   }
 
-  async beforeCreate () {
+  setData () {
     navigator.geolocation.getCurrentPosition((position) => {
       this.lat = `${position.coords.latitude}`
       this.lon = `${position.coords.longitude}`
       this.fecha = this.getDate()
-
-      this.intervalId = setInterval(() => {
-        this.fecha = this.getDate()
-      }, 10000)
-
-      this.loaded = true
     })
+  }
 
+  async beforeCreate () {
+    const UPDATE_INTERVAL_MS = 1000
     const trackCount = await getTrackCount(this.$route.params.id)
     const response = await trackCount.json()
+
+    this.setData()
+    this.intervalId = setInterval(this.setData, UPDATE_INTERVAL_MS)
+    this.loaded = true
     this.transectId = `${response.rows[0].count + 1}`
   }
 
