@@ -4,7 +4,7 @@ export async function getExpeditions () {
 }
 
 export async function getExpedition (id: string) {
-  const API_URL = `${process.env.VUE_APP_API_URL}sql?api_key=${process.env.VUE_APP_KEY_EXPEDICION}&q=SELECT id_transecto, to_char("fecha", 'YYYY/MM/DD') as fecha FROM avistamientos WHERE id_expedicion = ${id} GROUP BY id_transecto, fecha ORDER BY fecha DESC`
+  const API_URL = `${process.env.VUE_APP_API_URL}sql?api_key=${process.env.VUE_APP_KEY_EXPEDICION}&q=SELECT DISTINCT id_transecto, to_char("fecha", 'YYYY/MM/DD') as fecha FROM avistamientos WHERE id_expedicion = ${id} GROUP BY id_transecto, fecha ORDER BY fecha DESC`
   return fetch(API_URL)
 }
 

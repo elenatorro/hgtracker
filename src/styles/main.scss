@@ -9,5 +9,7 @@ body {
   height: 100%;
   background-color: var(--ss--secondary-color);
   color: var(--ss--dark-color);
-  font-family: 'WorkSans'
+  font-family: 'WorkSans';
+  overflow-x: hidden;
+  overflow-y: scroll;
 }

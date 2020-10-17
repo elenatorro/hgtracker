@@ -60,6 +60,10 @@ export default class TransectList extends Vue {
 </script>
 
 <style scoped lang="scss">
+.TransectList--container {
+  overflow-x: scroll;
+}
+
 .TransectList {
   td, th {
     padding: 1rem;

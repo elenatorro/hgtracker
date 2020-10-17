@@ -1,6 +1,6 @@
 <template>
   <div class="TransectRecord">
-    <TransectForm />
+    <TransectForm :mode="this.$route.params.mode" />
   </div>
 </template>
 

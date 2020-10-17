@@ -90,6 +90,8 @@ import { postView, getTrackCount } from '@/services/expeditions'
   }
 })
 export default class TransectForm extends Vue {
+  @Prop(String) mode!: string
+
   protected loaded: boolean = false
   protected lat: string = ''
   protected lon: string = ''
@@ -167,11 +169,12 @@ export default class TransectForm extends Vue {
     const UPDATE_INTERVAL_MS = 1000
     const trackCount = await getTrackCount(this.$route.params.id)
     const response = await trackCount.json()
+    const transectId = this.$props.mode && this.$props.mode === 'new' ? response.rows[0].count + 1 : response.rows[0].count
 
     this.setData()
     this.intervalId = setInterval(this.setData, UPDATE_INTERVAL_MS)
     this.loaded = true
-    this.transectId = `${response.rows[0].count + 1}`
+    this.transectId = `${transectId}`
   }
 
   beforeDestroy () {

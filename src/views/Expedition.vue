@@ -4,7 +4,7 @@
       <li><router-link class="Breadcrumb-link" to="/expediciones">← expediciones</router-link></li>
     </Breadcrumbs>
     <ActionButtons>
-      <router-link class="ActionButton ActionButton--success" :to="`/expedicion/${$route.params.id}/registro`">Empezar</router-link>
+      <router-link class="ActionButton ActionButton--success" :to="`/expedicion/${$route.params.id}/registro/new`">Empezar</router-link>
     </ActionButtons>
     <ExpeditionTransects />
   </div>

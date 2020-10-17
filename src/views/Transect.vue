@@ -3,7 +3,9 @@
     <Breadcrumbs>
       <li><router-link class="Breadcrumb-link" :to="`/expedicion/${$route.params.id}`">← expedición</router-link></li>
     </Breadcrumbs>
-    <div class="ActionButtons"></div>
+    <ActionButtons>
+      <router-link class="ActionButton ActionButton--success" :to="`/expedicion/${$route.params.id}/registro/continue`">Reanudar</router-link>
+    </ActionButtons>
     <TransectList />
   </div>
 </template>
@@ -12,11 +14,13 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import TransectList from '@/components/Expeditions/TransectList.vue'
 import Breadcrumbs from '@/components/core/General/Breadcrumbs.vue'
+import ActionButtons from '@/components/core/General/ActionButtons.vue'
 
 @Component({
   components: {
     TransectList,
-    Breadcrumbs
+    Breadcrumbs,
+    ActionButtons
   }
 })
 export default class Transect extends Vue {}

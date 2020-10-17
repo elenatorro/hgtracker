@@ -31,7 +31,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Transect.vue')
   },
   {
-    path: '/expedicion/:id/registro',
+    path: '/expedicion/:id/registro/:mode',
     name: 'registro-transecto',
     component: () => import(/* webpackChunkName: "about" */ '../views/TransectRecord.vue')
   }
