@@ -6,7 +6,7 @@
         width="100%"
         height="100%"
         frameborder="0"
-        src="https://elenatorro.carto.com/builder/a0082318-d292-4677-8ee3-a08de38eeb86/embed" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen>
+        src="/map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen>
       </iframe>
     </div>
   </div>
