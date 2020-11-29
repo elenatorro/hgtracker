@@ -10,7 +10,8 @@
       <!-- Include Icons -->
       <link rel="stylesheet" href="https://libs.cartocdn.com/airship-icons/v2.4.1/icons.css">
       <!-- Include Web Components -->
-      <script src="https://libs.cartocdn.com/airship-components/v2.4.1/airship.js"></script>
+      <script type="module" src="https://libs.cartocdn.com/airship-components/v2.4.1/airship/airship.esm.js"></script>
+      <script nomodule="" src="https://libs.cartocdn.com/airship-components/v2.4.1/airship/airship.js"></script>
 
       <!-- Include Leaflet -->
       <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
@@ -62,16 +63,16 @@
 
   <body class="as-app-body">
     <div class="as-app">
-      <as-responsive-content>
+      <as-responsive-content class="as-content">
         <main class="as-main">
           <div class="as-map-area">
             <div id="map"></div>
           </div>
         </main>
 
-        <aside class="as-sidebar as-sidebar--right widgets" data-name="Avistamientos">
+        <aside class="as-sidebar as-sidebar--right widgets" data-name="sightings">
             <as-category-widget
-              heading="Tipos de fondo"
+              heading="Seabed"
               default-bar-color="#47DB99">
             </as-category-widget>
         </aside>
@@ -84,7 +85,7 @@
         username: 'elenatorro'
       });
 
-      const map = L.map('map').setView([37.720627124388244, -0.8136749267578125], 13);
+      const map = L.map('map').setView([37.70066408151451, -0.7868957519531251], 11);
 
       L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}.png', {
         maxZoom: 18
@@ -119,12 +120,12 @@
       client.addLayer(layer);
       client.getLeafletLayer().addTo(map);
 
-      const fondos = new carto.filter.Category('fondo', {});
-      source.addFilter(fondos);
+      // const fondos = new carto.filter.Category('fondo', {});
+      // source.addFilter(fondos);
 
-      categoryWidget.addEventListener('categoriesSelected', (event) => {
-        fondos.setFilters({ in: event.detail });
-      });
+      // categoryWidget.addEventListener('categoriesSelected', (event) => {
+      //   fondos.setFilters({ in: event.detail });
+      // });
     </script>
   </body>
 </html>

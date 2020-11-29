@@ -31,6 +31,16 @@ export async function postExpedition (lat: string, lon: string, date: string, pl
 }
 
 export async function postView (id: string, tid: string, fondo: string, profundidad: number, especie: string, talla: number, sexo: string, buzo: string, lat: string, lon: string, fecha: string) {
-  const API_URL = `${process.env.VUE_APP_API_URL}sql?api_key=${process.env.VUE_APP_KEY_EXPEDICION}&q=INSERT INTO avistamientos (the_geom, id_expedicion, id_transecto, fondo, profundidad, especie, talla, sexo, buzo, lat, lon, fecha) VALUES (ST_SetSRID(ST_Point(${lon}, ${lat}), 4326), ${id}, ${tid}, '${fondo}', ${profundidad}, '${especie}', '${talla}', '${sexo}', '${buzo}', ${lat}, ${lon}, '${fecha}')`
+  if (lat && lon) {
+    const API_URL = `${process.env.VUE_APP_API_URL}sql?api_key=${process.env.VUE_APP_KEY_EXPEDICION}&q=INSERT INTO avistamientos (the_geom, id_expedicion, id_transecto, fondo, profundidad, especie, talla, sexo, buzo, lat, lon, fecha) VALUES (ST_SetSRID(ST_Point(${lon}, ${lat}), 4326), ${id}, ${tid}, '${fondo}', ${profundidad}, '${especie}', '${talla}', '${sexo}', '${buzo}', ${lat}, ${lon}, '${fecha}')`
+    return fetch(API_URL, { method: 'POST' })
+  }
+
+  const API_URL = `${process.env.VUE_APP_API_URL}sql?api_key=${process.env.VUE_APP_KEY_EXPEDICION}&q=INSERT INTO avistamientos (the_geom, id_expedicion, id_transecto, fondo, profundidad, especie, talla, sexo, buzo, fecha) VALUES (null, ${id}, ${tid}, '${fondo}', ${profundidad}, '${especie}', '${talla}', '${sexo}', '${buzo}', '${fecha}')`
+  return fetch(API_URL, { method: 'POST' })
+}
+
+export async function postTransect (id: string, tid: string, lat: string, lon: string, fecha: string) {
+  const API_URL = `${process.env.VUE_APP_API_URL}sql?api_key=${process.env.VUE_APP_KEY_EXPEDICION}&q=INSERT INTO coords (the_geom, id_expedicion, id_transecto, lat, lon, fecha) VALUES (ST_SetSRID(ST_Point(${lon}, ${lat}), 4326), ${id}, ${tid}, ${lat}, ${lon}, '${fecha}')`
   return fetch(API_URL, { method: 'POST' })
 }

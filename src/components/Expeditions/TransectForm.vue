@@ -8,12 +8,12 @@
 
       <p>
         <label for="lat">Lat</label>
-        <input id="lat" v-model="lat" type="text" name="lat" disabled>
+        <input id="lat" v-model="lat" type="text" name="lat" :disabled=isAuto>
       </p>
 
       <p>
         <label for="lon">Lon</label>
-        <input id="lon" v-model="lon" type="text" name="lon" disabled>
+        <input id="lon" v-model="lon" type="text" name="lon" :disabled=isAuto>
       </p>
 
       <p>
@@ -62,7 +62,8 @@
 
       <p>
         <label for="fecha">Fecha</label>
-        <input id="fecha" v-model="fecha" type="string" name="fecha" disabled>
+        <input id="fecha" v-model="fecha" type="string" name="fecha" v-if=isAuto disabled>
+        <input id="fecha" v-model="fecha" type="string" name="fecha" v-if=!isAuto>
       </p>
     </form>
 
@@ -79,7 +80,7 @@ import SectionButton from '@/components/core/General/SectionButton.vue'
 import ActionButtons from '@/components/core/General/ActionButtons.vue'
 import SectionButtonsList from '@/components/core/General/SectionButtonsList.vue'
 import Loader from '@/components/core/General/Loader.vue'
-import { postView, getTrackCount } from '@/services/expeditions'
+import { postView, postTransect, getTrackCount } from '@/services/expeditions'
 
 @Component({
   components: {
@@ -104,7 +105,12 @@ export default class TransectForm extends Vue {
   protected buzo: string = '-'
   protected transectId: string = ''
   protected intervalId: number = 0
+  protected autoIntervalId: number = 0
   protected showNotification: boolean = false
+
+  get isAuto () {
+    return this.$props.mode !== 'add'
+  }
 
   getDate () {
     const date = new Date()
@@ -165,20 +171,40 @@ export default class TransectForm extends Vue {
     })
   }
 
+  async sendData () {
+    this.setData()
+
+    const response = await postTransect(
+      `${this.$route.params.id}`,
+      this.transectId,
+      this.lat,
+      this.lon,
+      this.fecha
+    )
+  }
+
   async beforeCreate () {
     const UPDATE_INTERVAL_MS = 1000
     const trackCount = await getTrackCount(this.$route.params.id)
     const response = await trackCount.json()
     const transectId = this.$props.mode && this.$props.mode === 'new' ? response.rows[0].count + 1 : response.rows[0].count
 
-    this.setData()
-    this.intervalId = setInterval(this.setData, UPDATE_INTERVAL_MS)
+    if (this.isAuto) {
+      this.setData()
+      this.sendData()
+      this.intervalId = setInterval(this.setData, UPDATE_INTERVAL_MS)
+      this.autoIntervalId = setInterval(this.sendData, 60 * 60 * 60)
+    } else {
+      this.fecha = this.getDate()
+    }
+
     this.loaded = true
     this.transectId = `${transectId}`
   }
 
   beforeDestroy () {
     clearInterval(this.intervalId)
+    clearInterval(this.autoIntervalId)
   }
 }
 </script>

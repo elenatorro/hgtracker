@@ -6,6 +6,9 @@
     <ActionButtons>
       <router-link class="ActionButton ActionButton--success" :to="`/expedicion/${$route.params.id}/registro/continue`">Reanudar</router-link>
     </ActionButtons>
+    <ActionButtons>
+      <router-link class="ActionButton ActionButton--success" :to="`/expedicion/${$route.params.id}/registro/add`">Añadir</router-link>
+    </ActionButtons>
     <TransectList />
   </div>
 </template>
