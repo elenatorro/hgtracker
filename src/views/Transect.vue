@@ -30,5 +30,6 @@ export default class Transect extends Vue {}
 .Transect {
   max-width: 100%;
   overflow: scroll;
+  height: calc(100vh - 10rem);
 }
 </style>

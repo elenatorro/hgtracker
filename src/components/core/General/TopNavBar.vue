@@ -1,7 +1,7 @@
 <template>
   <nav class="TopNavBar" :class="{'TopNavBar--open': open}">
     <ul class="TopNavBar__List">
-      <li><a href="/"><img src="/img/logos/logo_circle.png" alt="logo 2020" /></a></li>
+      <li><a href="/"><img class="TopNavBar__Logo" src="/img/logos/logo.png" alt="logo 2020" /></a></li>
     </ul>
   </nav>
 </template>
@@ -59,5 +59,11 @@ export default class TopNavBar extends Vue {
       }
     }
   }
+}
+
+.TopNavBar__Logo {
+    background-color: #f6f6f6;
+    border-radius: 50%;
+    width: 86px;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <router-link to="/" class="HomeButton" role="button">
-    <img src="/img/logos/logo_circle.png" alt="HGTracker logo" />
+    <img src="/img/logos/logo.png" alt="HGTracker logo" />
   </router-link>
 </template>
 

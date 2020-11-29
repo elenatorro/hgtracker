@@ -2,7 +2,7 @@
   <header class="HeaderContent">
     <TopNavBar />
     <div class="HeaderTitle">
-      <h1>HGTracker</h1>
+      <!-- <h1>HGTracker</h1> -->
     </div>
   </header>
 </template>

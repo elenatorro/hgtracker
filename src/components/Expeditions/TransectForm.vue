@@ -8,12 +8,12 @@
 
       <p>
         <label for="lat">Lat</label>
-        <input id="lat" v-model="lat" type="text" name="lat">
+        <input id="lat" v-model="lat" type="text" name="lat" disabled>
       </p>
 
       <p>
         <label for="lon">Lon</label>
-        <input id="lon" v-model="lon" type="text" name="lon">
+        <input id="lon" v-model="lon" type="text" name="lon" disabled>
       </p>
 
       <p>
@@ -62,7 +62,7 @@
 
       <p>
         <label for="fecha">Fecha</label>
-        <input id="fecha" v-model="fecha" type="string" name="fecha">
+        <input id="fecha" v-model="fecha" type="string" name="fecha" disabled>
       </p>
     </form>
 

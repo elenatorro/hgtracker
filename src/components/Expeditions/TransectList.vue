@@ -65,6 +65,8 @@ export default class TransectList extends Vue {
 }
 
 .TransectList {
+  margin: 0 auto;
+
   td, th {
     padding: 1rem;
   }
