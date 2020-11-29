@@ -10,7 +10,6 @@
       <!-- Include Icons -->
       <link rel="stylesheet" href="https://libs.cartocdn.com/airship-icons/v2.4.1/icons.css">
       <!-- Include Web Components -->
-      <script src="https://libs.cartocdn.com/airship-components/v2.4.1/airship.esm.js"></script>
       <script src="https://libs.cartocdn.com/airship-components/v2.4.1/airship.js"></script>
 
       <!-- Include Leaflet -->
@@ -24,35 +23,59 @@
           margin: 0;
           padding: 0;
           --as--color--ui-01: #F6F6F6;
+          --as--color--primary: #0b132b;
+          --as--color--complementary: #0b132b;
         }
 
         .widgets {
-          padding: 2em;
+          margin: 2em;
           background-color: var(--as--color--ui-01);
         }
 
         .as-map-area {
           padding: 2em 0 2em 2em;
         }
+
+        .as-sidebar {
+          box-shadow: none;
+        }
+
+        .as-tabs--xl .as-tabs__item {
+          font-size: 18px;
+        }
+
+        .as-widget-header__header {
+          font-size: 18px !important;
+        }
+
+        @media (max-width: 700px) {
+          .as-map-area {
+            padding: 1em;
+          }
+
+          .widgets {
+            margin: 1em;
+          }
+        }
       </style>
   </head>
 
   <body class="as-app-body">
     <div class="as-app">
-      <div class="as-content">
+      <as-responsive-content>
         <main class="as-main">
           <div class="as-map-area">
             <div id="map"></div>
           </div>
         </main>
 
-        <aside class="widgets">
+        <aside class="as-sidebar as-sidebar--right widgets" data-name="Avistamientos">
             <as-category-widget
               heading="Tipos de fondo"
               default-bar-color="#47DB99">
             </as-category-widget>
         </aside>
-      </div>
+      </as-responsive-content>
     </div>
 
     <script>
