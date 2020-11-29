@@ -65,5 +65,6 @@ export default class TopNavBar extends Vue {
     background-color: #f6f6f6;
     border-radius: 50%;
     width: 86px;
+    height: 86px;
 }
 </style>
