@@ -32,6 +32,5 @@ export default class App extends Vue {
 .AppContent {
   margin-top: 10rem;
   height: 100%;
-  // overflow: scroll;
 }
 </style>

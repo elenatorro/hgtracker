@@ -1,9 +1,6 @@
 <template>
   <header class="HeaderContent">
     <TopNavBar />
-    <div class="HeaderTitle">
-      <!-- <h1>HGTracker</h1> -->
-    </div>
   </header>
 </template>
 
@@ -31,7 +28,7 @@ export default class HeaderContent extends Vue {}
 }
 
 .HeaderTitle {
-  margin-top: 6rem;
+  margin-top: 0;
   padding: 1rem;
   text-align: center;
 

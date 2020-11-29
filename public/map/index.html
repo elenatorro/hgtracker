@@ -49,6 +49,11 @@
           font-size: 18px !important;
         }
 
+        as-category-widget {
+          height: auto;
+          margin-bottom: 2em;
+        }
+
         @media (max-width: 700px) {
           .as-map-area {
             padding: 1em;
@@ -69,11 +74,31 @@
           <div class="as-map-area">
             <div id="map"></div>
           </div>
+
+          <footer class="as-map-footer">
+            <div class="as-box as-title">
+              <as-time-series-widget
+                id="time-series-date-widget"
+                x-label="Time"
+                y-label="Sightings"
+                responsive
+                show-clear-button
+                heading="Sightings over time"
+              >
+            </div>
+          </footer>
         </main>
 
-        <aside class="as-sidebar as-sidebar--right widgets" data-name="sightings">
+        <aside class="as-sidebar as-sidebar--right widgets" data-name="Sightings">
             <as-category-widget
+              id="category-seabed-widget"
               heading="Seabed"
+              default-bar-color="#47DB99">
+            </as-category-widget>
+
+            <as-category-widget
+              id="category-sex-widget"
+              heading="Sex"
               default-bar-color="#47DB99">
             </as-category-widget>
         </aside>
@@ -86,14 +111,16 @@
         username: 'elenatorro'
       });
 
-      const map = L.map('map').setView([37.70066408151451, -0.7868957519531251], 11);
+      const map = L.map('map').setView([37.70066408151451, -0.7868957519531251], 12);
 
       L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}.png', {
         maxZoom: 18
       }).addTo(map);
 
-      const categoryWidget = document.querySelector('as-category-widget');
-
+      const seabedCategoryWidget = document.getElementById('category-seabed-widget');
+      const sexCategoryWidget = document.getElementById('category-sex-widget');
+      const dateTimeSeriesWidget = document.getElementById('time-series-date-widget');
+      
       const source = new carto.source.SQL(
         `
         SELECT DISTINCT
@@ -114,36 +141,102 @@
 
       const style = new carto.style.CartoCSS(`
         #layer {
-          marker-width: 7;
-          marker-fill: #EE4D5A;
+          marker-width: 10;
+          marker-fill: ramp([fondo], (#7F3C8D, #3969AC, #11A579, #F2B701, #E73F74, #A5AA99), ("CAD", "CAR", "FAN", "PRM", "ARE"), category);
+          marker-fill-opacity: 1;
+          marker-allow-overlap: true;
+          marker-line-width: 0;
           marker-line-color: #FFFFFF;
+          marker-line-opacity: 1;
         }
       `);
 
       const bboxFilter = new carto.filter.BoundingBoxLeaflet(map);
 
-      const dataView = new carto.dataview.Category(source, 'fondo', {
+      const seabedDataView = new carto.dataview.Category(source, 'fondo', {
         operation: carto.operation.COUNT
       });
 
-      dataView.on('dataChanged', function (newData) {
-        categoryWidget.categories = newData.categories;
+      seabedCategoryWidget.showClearButton = true
+
+      seabedDataView.on('dataChanged', function (newData) {
+        seabedCategoryWidget.categories = newData.categories;
+      });
+      
+      seabedDataView.addFilter(bboxFilter);
+      client.addDataview(seabedDataView);
+
+      const sexDataView = new carto.dataview.Category(source, 'sexo', {
+        operation: carto.operation.COUNT
       });
 
-      dataView.addFilter(bboxFilter);
-      client.addDataview(dataView);
+      sexDataView.showClearButton = true
+
+      sexDataView.on('dataChanged', function (newData) {
+        sexCategoryWidget.categories = newData.categories;
+      });
+
+      sexDataView.addFilter(bboxFilter);
+      client.addDataview(sexDataView);
+
+      const dateDataView = new carto.dataview.TimeSeries(source, 'fecha', {
+        offset: 0,
+        aggregation: 'day'
+      });
+
+      dateDataView.on('dataChanged', function (newData) {
+        const dataChanged= newData.bins.map(function (data) {
+          return {
+            start: new Date(data.start * 1000),
+            end: new Date(data.end * 1000),
+            value: data.freq
+          }
+        })
+
+        dateTimeSeriesWidget.data = dataChanged
+      });
+
+      dateDataView.addFilter(bboxFilter);
+      client.addDataview(dateDataView);
 
       const layer = new carto.layer.Layer(source, style);
 
       client.addLayer(layer);
       client.getLeafletLayer().addTo(map);
 
-      // const fondos = new carto.filter.Category('fondo', {});
-      // source.addFilter(fondos);
+      const seabedFilter = new carto.filter.Category('fondo', {});
+      const sexFilter = new carto.filter.Category('sexo', {});
+      const dateFilter = new carto.filter.Range('fecha', {});
+      const allFilters = new carto.filter.AND([ seabedFilter, sexFilter, dateFilter ]);
 
-      // categoryWidget.addEventListener('categoriesSelected', (event) => {
-      //   fondos.setFilters({ in: event.detail });
-      // });
+      source.addFilter(allFilters);
+
+      seabedCategoryWidget.addEventListener('categoriesSelected', (event) => {
+        if (event.detail && event.detail.length) {
+          seabedFilter.setFilters({ in: event.detail });
+        } else {
+          seabedFilter.resetFilters()
+        }
+      });
+
+      sexCategoryWidget.addEventListener('categoriesSelected', (event) => {
+        if (event.detail && event.detail.length) {
+          sexFilter.setFilters({ in: event.detail });
+        } else {
+          sexFilter.resetFilters()
+        }
+      });
+
+
+      dateTimeSeriesWidget.addEventListener('selectionChanged', (event) => {
+        const dates = event.detail
+
+        if (dates && dates.length) {
+          dateFilter.setFilters({ between: { min: dates[0], max: dates[1] } });
+        } else {
+          dateFilter.resetFilters()
+        }
+      })
     </script>
   </body>
 </html>
