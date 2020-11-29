@@ -93,7 +93,24 @@
 
       const categoryWidget = document.querySelector('as-category-widget');
 
-      const source = new carto.source.Dataset('avistamientos');
+      const source = new carto.source.SQL(
+        `
+        SELECT DISTINCT
+              COALESCE(a.the_geom_webmercator, c.the_geom_webmercator) as the_geom_webmercator,
+              COALESCE(a.cartodb_id, c.cartodb_id) as cartodb_id,
+              a.id_transecto as id_transecto,
+              fondo,
+              profundidad,
+              especie,
+              talla,
+              sexo,
+              buzo,
+              date_trunc('minute', a.fecha) as fecha
+            FROM avistamientos AS a
+            LEFT JOIN (SELECT DISTINCT the_geom_webmercator, cartodb_id, lat, lon, id_expedicion, id_transecto, date_trunc('minute', fecha) as fecha FROM coords) AS c
+            ON a.id_expedicion = c.id_expedicion AND a.id_transecto = c.id_transecto
+      `)
+
       const style = new carto.style.CartoCSS(`
         #layer {
           marker-width: 7;

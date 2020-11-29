@@ -172,14 +172,12 @@ export default class TransectForm extends Vue {
   }
 
   async sendData () {
-    this.setData()
-
     const response = await postTransect(
       `${this.$route.params.id}`,
       this.transectId,
       this.lat,
       this.lon,
-      this.fecha
+      this.getDate()
     )
   }
 
@@ -191,9 +189,9 @@ export default class TransectForm extends Vue {
 
     if (this.isAuto) {
       this.setData()
-      this.sendData()
       this.intervalId = setInterval(this.setData, UPDATE_INTERVAL_MS)
       this.autoIntervalId = setInterval(this.sendData, 60 * 60 * 60)
+      this.sendData()
     } else {
       this.fecha = this.getDate()
     }
