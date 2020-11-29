@@ -55,7 +55,7 @@ export default class TopNavBar extends Vue {
         display: flex;
         justify-content: center;
         width: 100%;
-        top: 16px;
+        top: 0.35rem;
       }
     }
   }

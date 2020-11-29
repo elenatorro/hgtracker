@@ -26,7 +26,7 @@ export default class Dashboard extends Vue {}
 
 <style scoped lang="scss">
 .Dashboard {
-  height: calc(100vh - 10rem);
+  height: calc(100vh - 6rem);
 }
 
 .Dashboard-embedded {
