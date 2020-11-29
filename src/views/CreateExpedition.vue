@@ -1,7 +1,7 @@
 <template>
   <div class="CreateExpedition">
     <Breadcrumbs>
-      <li><router-link class="Breadcrumb-link" to="/expediciones">← expediciones</router-link></li>
+      <li><router-link class="Breadcrumb-link" to="/expediciones">← expeditions</router-link></li>
     </Breadcrumbs>
     <ExpeditionForm />
   </div>

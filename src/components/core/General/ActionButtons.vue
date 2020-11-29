@@ -20,7 +20,7 @@ export default class ActionButtons extends Vue {}
   .ActionButton {
     padding: 1rem 2rem;
     margin: .5rem 0;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     border-radius: 5px;
     text-decoration: none;
   }

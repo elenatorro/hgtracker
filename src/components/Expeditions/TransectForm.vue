@@ -17,7 +17,7 @@
       </p>
 
       <p>
-        <label for="fondo">Fondo</label>
+        <label for="fondo">Seabed</label>
 
         <select v-model="fondo" id="fondo">
           <option value="CAD">CAD</option>
@@ -32,44 +32,44 @@
       </p>
 
       <p>
-        <label for="profundidad">Prof.</label>
+        <label for="profundidad">Depth (m.)</label>
         <input id="profundidad" v-model="profundidad" type="number" name="profundidad">
       </p>
 
       <p>
-        <label for="especie">Especie</label>
+        <label for="especie">Specie</label>
         <input id="especie" v-model="especie" type="text" name="especie">
       </p>
 
       <p>
-        <label for="talla">Talla</label>
+        <label for="talla">Size</label>
         <input id="talla" v-model="talla" type="number" name="talla">
       </p>
 
       <p>
-        <label for="sexo">Sexo</label>
+        <label for="sexo">Sex</label>
         <select v-model="sexo" id="sexo">
           <option value="H">H</option>
           <option value="M">M</option>
-          <option value="M(preñado)">M(preñado)</option>
+          <option value="M(preñado)">M(pregnant)</option>
         </select>
       </p>
 
       <p>
-        <label for="team">Buzo</label>
+        <label for="team">Diver</label>
         <input id="buzo" v-model="buzo" type="text" name="buzo">
       </p>
 
       <p>
-        <label for="fecha">Fecha</label>
+        <label for="fecha">Date</label>
         <input id="fecha" v-model="fecha" type="string" name="fecha" v-if=isAuto disabled>
         <input id="fecha" v-model="fecha" type="string" name="fecha" v-if=!isAuto>
       </p>
     </form>
 
     <ActionButtons>
-      <button class="ActionButton ActionButton--success" @click="submit" type="submit">Registrar</button>
-      <button class="ActionButton ActionButton--warning" @click="finish">Terminar</button>
+      <button class="ActionButton ActionButton--success" @click="submit" type="submit">Add</button>
+      <button class="ActionButton ActionButton--warning" @click="finish">Finish</button>
     </ActionButtons>
   </div>
 </template>

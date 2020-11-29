@@ -1,13 +1,13 @@
 <template>
   <div class="Transect">
     <Breadcrumbs>
-      <li><router-link class="Breadcrumb-link" :to="`/expedicion/${$route.params.id}`">← expedición</router-link></li>
+      <li><router-link class="Breadcrumb-link" :to="`/expedicion/${$route.params.id}`">← expedition</router-link></li>
     </Breadcrumbs>
     <ActionButtons>
-      <router-link class="ActionButton ActionButton--success" :to="`/expedicion/${$route.params.id}/registro/continue`">Reanudar</router-link>
+      <router-link class="ActionButton ActionButton--success" :to="`/expedicion/${$route.params.id}/registro/continue`">Resume</router-link>
     </ActionButtons>
     <ActionButtons>
-      <router-link class="ActionButton ActionButton--success" :to="`/expedicion/${$route.params.id}/registro/add`">Añadir</router-link>
+      <router-link class="ActionButton ActionButton--success" :to="`/expedicion/${$route.params.id}/registro/add`">New</router-link>
     </ActionButtons>
     <TransectList />
   </div>

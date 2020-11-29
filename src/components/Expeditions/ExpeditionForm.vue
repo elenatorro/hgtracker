@@ -27,7 +27,7 @@
       </p>
 
       <p>
-        <label for="place">Localidad</label>
+        <label for="place">Place</label>
         <input
           id="place"
           v-model="place"
@@ -37,7 +37,7 @@
       </p>
 
       <p>
-        <label for="team">Equipo</label>
+        <label for="team">Team</label>
         <input
           id="team"
           v-model="team"
@@ -47,7 +47,7 @@
       </p>
 
       <p>
-        <label for="date">Fecha</label>
+        <label for="date">Date</label>
         <input
           id="date"
           value="2020/10/10"
@@ -61,7 +61,7 @@
           class="ActionButton ActionButton--success"
           type="submit"
           @click="submit"
-          value="Enviar"
+          value="Save"
         >
       </ActionButtons>
     </form>

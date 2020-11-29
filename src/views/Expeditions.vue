@@ -1,10 +1,10 @@
 <template>
   <div class="Expeditions">
     <Breadcrumbs>
-      <li><router-link class="Breadcrumb-link" to="/">← inicio</router-link></li>
+      <li><router-link class="Breadcrumb-link" to="/">← back</router-link></li>
     </Breadcrumbs>
     <ActionButtons>
-      <router-link to="nueva-expedicion" class="ActionButton ActionButton--success">Nueva</router-link>
+      <router-link to="nueva-expedicion" class="ActionButton ActionButton--success">New</router-link>
     </ActionButtons>
     <ExpeditionsList />
   </div>

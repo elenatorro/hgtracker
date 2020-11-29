@@ -33,7 +33,7 @@ export default class HeaderContent extends Vue {}
   text-align: center;
 
   h1 {
-    font-size: 2rem;
+    font-size: 1.2rem;
     color: var(--ss--primary-color)
   }
 
@@ -42,7 +42,7 @@ export default class HeaderContent extends Vue {}
   }
 
   p {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
 }
 </style>

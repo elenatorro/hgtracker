@@ -39,7 +39,7 @@ export default class SectionButtonsList extends Vue {}
     border-radius: 5px;
     color: inherit;
     text-decoration: none;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
 }
 </style>

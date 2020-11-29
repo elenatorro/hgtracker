@@ -3,7 +3,7 @@
     <Loader v-if="!loaded"/>
     <SectionButtonsList>
       <li v-for="(expedition, index) in expeditions" :key="`${index}`">
-        <SectionButton :section="`expedicion/${expedition.id_expedicion}`" :name="`Ex ${expedition.id_expedicion} - ${expedition.fecha}`"/>
+        <SectionButton :section="`expedicion/${expedition.id_expedicion}`" :name="`Expedition ${expedition.id_expedicion} - ${expedition.fecha}`"/>
       </li>
     </SectionButtonsList>
   </div>

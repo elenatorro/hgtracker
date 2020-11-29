@@ -3,14 +3,14 @@
   <Loader v-if="!loaded"/>
   <table class="TransectList">
     <tr>
-      <th>Distancia</th>
-      <th>Fondo</th>
-      <th>Profundidad</th>
-      <th>Especie</th>
-      <th>Talla</th>
-      <th>Sexo</th>
-      <th>Buzo</th>
-      <th>Hora</th>
+      <th>Distance</th>
+      <th>Seabed</th>
+      <th>Depth</th>
+      <th>Specie</th>
+      <th>Size</th>
+      <th>Sex</th>
+      <th>Diver</th>
+      <th>Time</th>
       <th>Lon</th>
       <th>Lat</th>
     </tr>

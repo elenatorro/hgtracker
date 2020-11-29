@@ -25,7 +25,7 @@ export default class Breadcrumbs extends Vue {}
     width: 100%;
     color: inherit;
     padding: 1rem 2rem;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     border-radius: 5px;
     text-decoration: none;
     background-color: var(--ss--third-color);

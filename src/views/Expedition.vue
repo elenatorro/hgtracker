@@ -1,10 +1,10 @@
 <template>
   <div class="Expeditions">
     <Breadcrumbs>
-      <li><router-link class="Breadcrumb-link" to="/expediciones">← expediciones</router-link></li>
+      <li><router-link class="Breadcrumb-link" to="/expediciones">← expeditions</router-link></li>
     </Breadcrumbs>
     <ActionButtons>
-      <router-link class="ActionButton ActionButton--success" :to="`/expedicion/${$route.params.id}/registro/new`">Empezar</router-link>
+      <router-link class="ActionButton ActionButton--success" :to="`/expedicion/${$route.params.id}/registro/new`">Start</router-link>
     </ActionButtons>
     <ExpeditionTransects />
   </div>
