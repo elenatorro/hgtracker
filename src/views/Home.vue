@@ -1,9 +1,8 @@
 <template>
   <div class="Home">
     <SectionButtonsList>
-      <li><SectionButton section='expediciones' name="Expediciones" /></li>
-      <!-- <li><SectionButton section='buzos' name="Buzos" /></li> -->
-      <!-- <li><SectionButton section='mapa' name="Mapa" /></li> -->
+      <li><SectionButton section='expediciones' name="Tracker" /></li>
+      <li><SectionButton section='dashboard' name="Dashboard" /></li>
     </SectionButtonsList>
   </div>
 </template>
