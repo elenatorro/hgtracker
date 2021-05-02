@@ -122,7 +122,7 @@ export default class TransectForm extends Vue {
     const seconds = date.getSeconds()
 
     if (month < 10) {
-      return `${year}-0${month}/${day} ${hours}:${minutes}:${seconds}`
+      return `${year}/0${month}/${day} ${hours}:${minutes}:${seconds}`
     }
 
     return `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`
