@@ -76,6 +76,12 @@ import SectionButtonsList from '@/components/core/General/SectionButtonsList.vue
 import Loader from '@/components/core/General/Loader.vue'
 import { postExpedition } from '@/services/expeditions'
 
+const options = {
+  enableHighAccuracy: true,
+  timeout: 5000,
+  maximumAge: 0
+}
+
 @Component({
   components: {
     SectionButton,
@@ -120,7 +126,7 @@ export default class ExpeditionForm extends Vue {
       this.lon = `${position.coords.longitude}`
       this.date = this.getDate()
       this.loaded = true
-    })
+    }, () => {}, options)
   }
 }
 </script>

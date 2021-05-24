@@ -82,6 +82,12 @@ import SectionButtonsList from '@/components/core/General/SectionButtonsList.vue
 import Loader from '@/components/core/General/Loader.vue'
 import { postView, postTransect, getTrackCount } from '@/services/expeditions'
 
+const options = {
+  enableHighAccuracy: true,
+  timeout: 5000,
+  maximumAge: 0
+}
+
 @Component({
   components: {
     SectionButton,
@@ -168,7 +174,7 @@ export default class TransectForm extends Vue {
       this.lat = `${position.coords.latitude}`
       this.lon = `${position.coords.longitude}`
       this.fecha = this.getDate()
-    })
+    }, () => {}, options)
   }
 
   async sendData () {
