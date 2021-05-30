@@ -39,6 +39,9 @@ const routes = [
     path: '/expedicion/:id/registro/:mode',
     name: 'registro-transecto',
     component: () => import(/* webpackChunkName: "about" */ '../views/TransectRecord.vue')
+  },
+  {
+    path: '/map' // Ignore or pass on to server
   }
 ]
 

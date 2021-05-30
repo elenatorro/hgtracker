@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+      <!-- Include CSS  -->
+      <link rel="stylesheet" href="https://libs.cartocdn.com/airship-style/v2.4.1/airship.css">
+      <!-- Include Icons -->
+      <link rel="stylesheet" href="https://libs.cartocdn.com/airship-icons/v2.4.1/icons.css">
+      <!-- Include Web Components -->
+      <script type="module" src="https://libs.cartocdn.com/airship-components/v2.4.1/airship/airship.esm.js"></script>
+      <script nomodule="" src="https://libs.cartocdn.com/airship-components/v2.4.1/airship/airship.js"></script>
+
+      <!-- Include Leaflet -->
+      <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
+      <link href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" rel="stylesheet">
+
+      <script src="https://libs.cartocdn.com/carto.js/v4/carto.min.js"></script>
+
+      <style>
+        body {
+          margin: 0;
+          padding: 0;
+          --as--color--ui-01: #F6F6F6;
+          --as--color--primary: #0b132b;
+          --as--color--complementary: #0b132b;
+        }
+
+        .widgets {
+          margin: 2em;
+          background-color: var(--as--color--ui-01);
+        }
+
+        .as-map-area {
+          padding: 2em 0 2em 2em;
+        }
+
+        .as-sidebar {
+          box-shadow: none;
+        }
+
+        .as-tabs--xl .as-tabs__item {
+          font-size: 18px;
+        }
+
+        .as-widget-header__header {
+          font-size: 18px !important;
+        }
+
+        #map {
+          border: 1px solid var(--as--color--primary);
+          border-radius: 5px;
+        }
+
+        as-category-widget {
+          height: auto;
+          margin-bottom: 2em;
+          border: 1px solid var(--as--color--primary);
+          border-radius: 5px;
+          padding: 1em;
+          background-color: white;
+        }
+
+        as-time-series-widget {
+          border: 1px solid var(--as--color--primary);
+          border-radius: 5px;
+          padding: 1em;
+          background-color: white;
+        }
+
+        as-histogram-widget {
+          background-color: white;
+        }
+
+        .as-box {
+          padding: 0 0 1em 2em;
+        }
+
+        @media (max-width: 700px) {
+          .as-map-area {
+            visibility: hidden;
+          }
+
+          .as-map-area.as-map-area--visible {
+            visibility: visible;
+            padding: 1em;
+          }
+
+          .widgets {
+            margin: 0;
+            padding: 1em;
+          }
+
+          as-category-widget {
+            height: 100%;
+            min-height: 100%;
+            margin-bottom: 1em;
+          }
+
+          as-time-series-widget {
+            padding: 1em;
+            overflow: scroll;
+          }
+
+          .as-box {
+            padding: 0;
+            margin: 1em;
+          }
+        }
+      </style>
+  </head>
+
+  <body class="as-app-body">
+    <div class="as-app">
+      <as-responsive-content class="as-content">
+        <main class="as-main">
+          <div class="as-map-area">
+            <div id="map"></div>
+          </div>
+
+          <footer class="as-map-footer" data-name="Evolution">
+            <div class="as-box">
+              <as-time-series-widget
+                id="time-series-date-widget"
+                x-label="Time"
+                y-label="Sightings"
+                responsive
+                show-clear-button
+                heading="Sightings over time"
+              >
+            </div>
+          </footer>
+        </main>
+
+        <aside class="as-sidebar as-sidebar--right widgets" data-name="Sightings">
+            <as-category-widget
+              id="category-seabed-widget"
+              heading="Seabed"
+              default-bar-color="#47DB99">
+            </as-category-widget>
+
+            <as-category-widget
+              id="category-sex-widget"
+              heading="Sex"
+              default-bar-color="#47DB99">
+            </as-category-widget>
+        </aside>
+      </as-responsive-content>
+    </div>
+
+    <script>
+      const client = new carto.Client({
+        apiKey: 'default_public',
+        username: 'elenatorro'
+      });
+
+      const DEFAULT_LAT = 37.70066408151451
+      const DEFAULT_LON = -0.7868957519531251
+
+      const map = L.map('map').setView([DEFAULT_LAT, DEFAULT_LON], 12);
+
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}.png', {
+        maxZoom: 18
+      }).addTo(map);
+
+      const seabedCategoryWidget = document.getElementById('category-seabed-widget');
+      const sexCategoryWidget = document.getElementById('category-sex-widget');
+      const dateTimeSeriesWidget = document.getElementById('time-series-date-widget');
+      
+      const source = new carto.source.SQL(
+        `SELECT DISTINCT
+              COALESCE(a.the_geom_webmercator, c.the_geom_webmercator) as the_geom_webmercator,
+              COALESCE(a.cartodb_id, c.cartodb_id) as cartodb_id,
+              a.id_transecto as id_transecto,
+              fondo,
+              profundidad,
+              especie,
+              talla,
+              sexo,
+              buzo,
+              date_trunc('minute', a.fecha) as fecha
+            FROM avistamientos AS a
+            LEFT JOIN (SELECT DISTINCT the_geom_webmercator, cartodb_id, lat, lon, id_expedicion, id_transecto, date_trunc('minute', fecha) as fecha FROM coords) AS c
+            ON a.id_expedicion = c.id_expedicion AND a.id_transecto = c.id_transecto
+        `)
+
+      const style = new carto.style.CartoCSS(`
+        #layer {
+          marker-width: 10;
+          marker-fill: ramp([fondo], (#7F3C8D, #3969AC, #11A579, #F2B701, #E73F74, #A5AA99), ("CAD", "CAR", "FAN", "PRM", "ARE"), category);
+          marker-fill-opacity: 1;
+          marker-allow-overlap: true;
+          marker-line-width: 0;
+          marker-line-color: #FFFFFF;
+          marker-line-opacity: 1;
+        }
+      `);
+
+      const bboxFilter = new carto.filter.BoundingBoxLeaflet(map);
+
+      const seabedDataView = new carto.dataview.Category(source, 'fondo', {
+        operation: carto.operation.COUNT
+      });
+
+      seabedCategoryWidget.showClearButton = true
+
+      seabedDataView.on('dataChanged', function (newData) {
+        seabedCategoryWidget.categories = newData.categories;
+      });
+      
+      seabedDataView.addFilter(bboxFilter);
+      client.addDataview(seabedDataView);
+
+      const sexDataView = new carto.dataview.Category(source, 'sexo', {
+        operation: carto.operation.COUNT
+      });
+
+      sexDataView.showClearButton = true
+
+      sexDataView.on('dataChanged', function (newData) {
+        sexCategoryWidget.categories = newData.categories;
+      });
+
+      sexDataView.addFilter(bboxFilter);
+      client.addDataview(sexDataView);
+
+      const dateDataView = new carto.dataview.TimeSeries(source, 'fecha', {
+        offset: 0,
+        aggregation: 'day'
+      });
+
+      dateDataView.on('dataChanged', function (newData) {
+        const dataChanged= newData.bins.map(function (data) {
+          return {
+            start: new Date(data.start * 1000),
+            end: new Date(data.end * 1000),
+            value: data.freq
+          }
+        })
+
+        dateTimeSeriesWidget.data = dataChanged
+      });
+
+      dateDataView.addFilter(bboxFilter);
+      client.addDataview(dateDataView);
+
+      const layer = new carto.layer.Layer(source, style);
+
+      client.addLayer(layer);
+      client.getLeafletLayer().addTo(map);
+
+      const seabedFilter = new carto.filter.Category('fondo', {});
+      const sexFilter = new carto.filter.Category('sexo', {});
+      const dateFilter = new carto.filter.Range('fecha', {});
+      const allFilters = new carto.filter.AND([ seabedFilter, sexFilter, dateFilter ]);
+
+      source.addFilter(allFilters);
+
+      seabedCategoryWidget.addEventListener('categoriesSelected', (event) => {
+        if (event.detail && event.detail.length) {
+          seabedFilter.setFilters({ in: event.detail });
+        } else {
+          seabedFilter.resetFilters()
+        }
+      });
+
+      sexCategoryWidget.addEventListener('categoriesSelected', (event) => {
+        if (event.detail && event.detail.length) {
+          sexFilter.setFilters({ in: event.detail });
+        } else {
+          sexFilter.resetFilters()
+        }
+      });
+
+
+      dateTimeSeriesWidget.addEventListener('selectionChanged', (event) => {
+        const dates = event.detail
+
+        if (dates && dates.length) {
+          dateFilter.setFilters({ between: { min: dates[0], max: dates[1] } });
+        } else {
+          dateFilter.resetFilters()
+        }
+      })
+    </script>
+  </body>
+</html>
