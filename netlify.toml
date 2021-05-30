@@ -7,3 +7,4 @@
   from = "/map"
   to = "/map/index.html"
   status = 200
+  force = true
