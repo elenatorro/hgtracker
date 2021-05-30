@@ -31,6 +31,7 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
+    "public/map/index.html",
     "tests/**/*.ts",
     "tests/**/*.tsx"
   ],
