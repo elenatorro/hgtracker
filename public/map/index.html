@@ -183,7 +183,8 @@
               date_trunc('minute', a.fecha) as fecha
             FROM avistamientos AS a
             LEFT JOIN (SELECT DISTINCT the_geom_webmercator, cartodb_id, lat, lon, id_expedicion, id_transecto, date_trunc('minute', fecha) as fecha FROM coords) AS c
-            ON a.id_expedicion = c.id_expedicion AND a.id_transecto = c.id_transecto`)
+            ON a.id_expedicion = c.id_expedicion AND a.id_transecto = c.id_transecto
+        `)
 
       const style = new carto.style.CartoCSS(`
         #layer {
