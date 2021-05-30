@@ -115,7 +115,7 @@ export default class ExpeditionForm extends Vue {
   async submit (e:any) {
     e.stopPropagation()
     e.preventDefault()
-    const response = await postExpedition(this.lat, this.lon, this.date, this.place, this.team)
+    await postExpedition(this.lat, this.lon, this.date, this.place, this.team)
 
     this.$router.push('expediciones')
   }
