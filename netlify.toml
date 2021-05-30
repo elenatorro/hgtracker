@@ -1,0 +1,9 @@
+[[redirects]]
+  from = "/*"
+  to = "/"
+  status = 200
+
+[[redirects]]
+  from = "/map"
+  to = "/map/index.html"
+  status = 200!
